@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="uzPro.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="connString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">data source=WIN-BK7EEL3S9EA\SQLEXPRESS;initial catalog=uzi;integrated security=True;</Value>
+    </Setting>
+    <Setting Name="header" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="sign" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Рудакова Р.С.</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище uziModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="BirthDate" Type="date" Nullable="false" />
+          <Property Name="Pasport" Type="nvarchar" MaxLength="255" />
+          <Property Name="Reg" Type="nvarchar" MaxLength="255" />
+          <Property Name="Tel" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Contract">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumContract" Type="nvarchar" MaxLength="50" />
+          <Property Name="NumAct" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="BirthDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="Pasport" Type="nvarchar" MaxLength="255" />
+          <Property Name="Reg" Type="nvarchar" MaxLength="255" />
+          <Property Name="Tel" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProtocolID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContractValues">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContractID" Type="int" Nullable="false" />
+          <Property Name="Kod" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="CostOne" Type="nvarchar" MaxLength="50" />
+          <Property Name="Count" Type="nvarchar" MaxLength="50" />
+          <Property Name="CostAll" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sale" Type="nvarchar" MaxLength="50" />
+          <Property Name="Total" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Protocol">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Kod" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" />
+          <Property Name="Text" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Contract_Protocol">
+          <End Role="Protocol" Type="Self.Protocol" Multiplicity="1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Protocol">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="ProtocolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractValues_Contract">
+          <End Role="Contract" Type="Self.Contract" Multiplicity="1" />
+          <End Role="ContractValues" Type="Self.ContractValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ContractValues">
+              <PropertyRef Name="ContractID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Protocol_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Protocol" Type="Self.Protocol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Protocol">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище uziModelContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractValues" EntityType="Self.ContractValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Protocol" EntityType="Self.Protocol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Template" EntityType="Self.Template" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Contract_Protocol" Association="Self.FK_Contract_Protocol">
+            <End Role="Protocol" EntitySet="Protocol" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractValues_Contract" Association="Self.FK_ContractValues_Contract">
+            <End Role="Contract" EntitySet="Contract" />
+            <End Role="ContractValues" EntitySet="ContractValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Protocol_Client" Association="Self.FK_Protocol_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Protocol" EntitySet="Protocol" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="uziModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Pasport" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Reg" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Protocols" Relationship="Self.FK_Protocol_Client" FromRole="Client" ToRole="Protocol" />
+        </EntityType>
+        <EntityType Name="Protocol">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Protocol_Client" FromRole="Protocol" ToRole="Client" />
+          <NavigationProperty Name="Contracts" Relationship="uziModel.FK_Contract_Protocol" FromRole="Protocol" ToRole="Contract" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Kod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Protocol_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Protocol" Type="Self.Protocol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Protocol">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="uziEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Protocols" EntityType="Self.Protocol" />
+          <EntitySet Name="Services" EntityType="Self.Service" />
+          <EntitySet Name="Templates" EntityType="Self.Template" />
+          <AssociationSet Name="FK_Protocol_Client" Association="Self.FK_Protocol_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Protocol" EntitySet="Protocols" />
+          </AssociationSet>
+          <EntitySet Name="Contracts" EntityType="uziModel.Contract" />
+          <AssociationSet Name="FK_Contract_Protocol" Association="uziModel.FK_Contract_Protocol">
+            <End Role="Protocol" EntitySet="Protocols" />
+            <End Role="Contract" EntitySet="Contracts" />
+          </AssociationSet>
+          <EntitySet Name="ContractValues" EntityType="uziModel.ContractValue" />
+          <AssociationSet Name="FK_ContractValues_Contract" Association="uziModel.FK_ContractValues_Contract">
+            <End Role="Contract" EntitySet="Contracts" />
+            <End Role="ContractValue" EntitySet="ContractValues" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Contract">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumContract" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumAct" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pasport" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Reg" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProtocolID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Protocol" Relationship="uziModel.FK_Contract_Protocol" FromRole="Contract" ToRole="Protocol" />
+          <NavigationProperty Name="ContractValues" Relationship="uziModel.FK_ContractValues_Contract" FromRole="Contract" ToRole="ContractValue" />
+        </EntityType>
+        <Association Name="FK_Contract_Protocol">
+          <End Type="uziModel.Protocol" Role="Protocol" Multiplicity="1" />
+          <End Type="uziModel.Contract" Role="Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Protocol">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="ProtocolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ContractValue">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContractID" Type="Int32" Nullable="false" />
+          <Property Name="Kod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CostOne" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Count" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CostAll" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sale" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Total" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Contract" Relationship="uziModel.FK_ContractValues_Contract" FromRole="ContractValue" ToRole="Contract" />
+        </EntityType>
+        <Association Name="FK_ContractValues_Contract">
+          <End Type="uziModel.Contract" Role="Contract" Multiplicity="1" />
+          <End Type="uziModel.ContractValue" Role="ContractValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ContractValue">
+              <PropertyRef Name="ContractID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище uziModelContainer" CdmEntityContainer="uziEntities1">
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="uziModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Pasport" ColumnName="Pasport" />
+                <ScalarProperty Name="Reg" ColumnName="Reg" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Protocols">
+            <EntityTypeMapping TypeName="uziModel.Protocol">
+              <MappingFragment StoreEntitySet="Protocol">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="uziModel.Service">
+              <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Templates">
+            <EntityTypeMapping TypeName="uziModel.Template">
+              <MappingFragment StoreEntitySet="Template">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contracts">
+            <EntityTypeMapping TypeName="uziModel.Contract">
+              <MappingFragment StoreEntitySet="Contract">
+                <ScalarProperty Name="ProtocolID" ColumnName="ProtocolID" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Reg" ColumnName="Reg" />
+                <ScalarProperty Name="Pasport" ColumnName="Pasport" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="NumAct" ColumnName="NumAct" />
+                <ScalarProperty Name="NumContract" ColumnName="NumContract" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractValues">
+            <EntityTypeMapping TypeName="uziModel.ContractValue">
+              <MappingFragment StoreEntitySet="ContractValues">
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Sale" ColumnName="Sale" />
+                <ScalarProperty Name="CostAll" ColumnName="CostAll" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="CostOne" ColumnName="CostOne" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="ContractID" ColumnName="ContractID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
